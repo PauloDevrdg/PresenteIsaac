@@ -113,7 +113,7 @@
             left: 5%;
             width: 90%;
             background: var(--white);
-            padding: 25px 15px;
+            padding: 0; /* Removido padding para a imagem colar nas bordas */
             border-radius: 8px;
             z-index: 2;
             opacity: 0;
@@ -122,8 +122,13 @@
                         opacity 0.4s ease;
             border: 1.5px solid var(--safari-green);
             box-shadow: 0 0 20px rgba(0,0,0,0.1);
-            max-height: 380px; 
+            max-height: 420px; 
             overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        .card-content-wrapper {
+            padding: 25px 15px;
         }
 
         .card-header {
@@ -169,23 +174,20 @@
 
         .evidence-chamber {
             width: 100%;
-            min-height: 150px;
-            background: #fafafa;
-            border: 1px solid #eee;
-            border-radius: 8px;
+            background: var(--white);
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             justify-content: center;
             margin-top: 8px;
+            border-radius: 4px;
             overflow: hidden;
         }
 
         .receipt-preview {
             width: 100%;
-            max-height: 300px;
-            object-fit: contain;
-            border-radius: 4px;
+            height: auto;
             display: block;
+            border-radius: 4px;
         }
 
         .is-open .flap {
@@ -196,8 +198,7 @@
         .is-open .card {
             opacity: 1;
             visibility: visible;
-            /* Posição calibrada para mobile e desktop */
-            transform: translateY(-190px); 
+            transform: translateY(-210px); 
             z-index: 15;
         }
 
@@ -244,14 +245,14 @@
 </head>
 <body>
 
-    <!-- Elementos de áudio configurados para sons sutis e agradáveis -->
+    <!-- Elementos de áudio com sons mais elegantes e sutis -->
     <audio id="audioOpen" preload="auto">
-        <!-- Som de papel deslizando suavemente -->
-        <source src="https://assets.mixkit.co/active_storage/sfx/2565/2565-preview.mp3" type="audio/mpeg">
+        <!-- Som de 'pop' elegante -->
+        <source src="https://assets.mixkit.co/active_storage/sfx/2019/2019-preview.mp3" type="audio/mpeg">
     </audio>
     <audio id="audioCelebrate" preload="auto">
-        <!-- Som de brilho/sino mágico suave -->
-        <source src="https://assets.mixkit.co/active_storage/sfx/1435/1435-preview.mp3" type="audio/mpeg">
+        <!-- Som de brilho cristalino suave -->
+        <source src="https://assets.mixkit.co/active_storage/sfx/2013/2013-preview.mp3" type="audio/mpeg">
     </audio>
 
     <div class="gift-container" id="giftTrigger">
@@ -261,26 +262,28 @@
             <div class="pocket"></div>
             
             <div class="card" id="presentCard">
-                <div class="card-header">
-                    <h1>Tribunal do Titio Paulo</h1>
-                </div>
-                <div class="card-body">
-                    <div class="legal-tag">Processo: 001/ISAAC/2026</div>
-                    <h2>HABEAS FRALDAS CONCEDIDO!</h2>
-                    <p><i>"Sentença irrecorrível para o estoque do Isaac."</i></p>
-                    
-                    <div style="background: var(--safari-beige); padding: 8px; border-radius: 6px; margin: 8px 0; color: var(--safari-brown); font-size: 0.85rem; font-weight: bold;">
-                        OBJETO: VALE FRALDAS 🍼
+                <div class="card-content-wrapper">
+                    <div class="card-header">
+                        <h1>Tribunal do Titio Paulo</h1>
                     </div>
-
-                    <div class="pix-area">
-                        <p style="font-weight: 700; font-size: 0.65rem; color: var(--safari-dark);">PROVA DOCUMENTAL ANEXA:</p>
+                    <div class="card-body">
+                        <div class="legal-tag">Processo: 001/ISAAC/2026</div>
+                        <h2>HABEAS FRALDAS CONCEDIDO!</h2>
+                        <p><i>"Sentença irrecorrível para o estoque do Isaac."</i></p>
                         
-                        <div class="evidence-chamber">
-                            <img id="imgComprovante" src="" alt="Comprovante" class="receipt-preview">
+                        <div style="background: var(--safari-beige); padding: 8px; border-radius: 6px; margin: 8px 0; color: var(--safari-brown); font-size: 0.85rem; font-weight: bold; text-align: center;">
+                            OBJETO: VALE FRALDAS 🍼
                         </div>
-                        
-                        <p style="font-size: 0.55rem; margin-top: 8px; color: #999;">Assinado: Titio Paulo</p>
+
+                        <div class="pix-area">
+                            <p style="font-weight: 700; font-size: 0.65rem; color: var(--safari-dark); margin-bottom: 8px;">PROVA DOCUMENTAL ANEXA:</p>
+                            
+                            <div class="evidence-chamber">
+                                <img id="imgComprovante" src="" alt="Comprovante" class="receipt-preview">
+                            </div>
+                            
+                            <p style="font-size: 0.55rem; margin-top: 15px; color: #999;">Assinado digitalmente: Titio Paulo</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -301,26 +304,26 @@
         const audioOpen = document.getElementById('audioOpen');
         const audioCelebrate = document.getElementById('audioCelebrate');
 
-        // Volume baixíssimo (10%) para um toque elegante e discreto
-        audioOpen.volume = 0.1;
-        audioCelebrate.volume = 0.1;
+        // Volume calibrado para ser discreto e elegante (15%)
+        audioOpen.volume = 0.15;
+        audioCelebrate.volume = 0.15;
 
         let isOpened = false;
 
         if (COMPROVANTE_BASE64) {
             imgElement.src = COMPROVANTE_BASE64;
         } else {
-            imgElement.src = "https://via.placeholder.com/300x400?text=Aguardando+Comprovante";
+            imgElement.src = "https://via.placeholder.com/400x600?text=Comprovante+Pix";
         }
 
         const triggerAnimation = () => {
             if (!isOpened) {
-                // Execução dos áudios suavizados
+                // Tenta tocar os sons otimizados
                 audioOpen.play().catch(() => {});
                 
                 setTimeout(() => {
                     audioCelebrate.play().catch(() => {});
-                }, 500);
+                }, 400);
 
                 envelope.classList.add('is-open');
                 isOpened = true;
